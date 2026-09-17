@@ -2,7 +2,7 @@ workflows:
 
   ios-native-quick-start:
 
-    name: LAVA2026
+    name: lava2026
 
     max_build_duration: 120
 
@@ -11,7 +11,7 @@ workflows:
 
     integrations:
 
-      app_store_connect: lava
+      app_store_connect: lava2026
 
 
     environment:
