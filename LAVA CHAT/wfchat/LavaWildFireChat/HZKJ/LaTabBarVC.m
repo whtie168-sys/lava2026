@@ -12,8 +12,8 @@
 #import "LaContactsVC.h"
 #import "LaCallosVC.h"
 #import "LaProfileVC.h"
-#import "UNDJKWIOKDCommunityVC.h"
-#import "AIViewController.h"
+//#import "UNDJKWIOKDCommunityVC.h"
+//#import "AIViewController.h"
 #import "AppService.h"
 
 
@@ -29,12 +29,19 @@
     [UITabBar.appearance setUnselectedItemTintColor:RGBA(0xD0D0D0)];
     [UITabBar.appearance setTintColor:MAINCOLOR];
      
+//    NSArray *ecgsoixVcs = @[LaConversationVC.new,
+//                            LaContactsVC.new,
+//                            UNDJKWIOKDCommunityVC.new,
+//                            AIViewController.new,
+//                            LaProfileVC.new];
+    
     NSArray *ecgsoixVcs = @[LaConversationVC.new,
                             LaContactsVC.new,
-                            UNDJKWIOKDCommunityVC.new,
-                            AIViewController.new,
                             LaProfileVC.new];
-    NSArray *titles = @[LLLLLL(@"Message"), LLLLLL(@"Contacts"), LLLLLL(@"Community"), LLLLLL(@"AI"), LLLLLL(@"Mine")];
+    
+//    NSArray *titles = @[LLLLLL(@"Message"), LLLLLL(@"Contacts"), LLLLLL(@"Community"), LLLLLL(@"AI"), LLLLLL(@"Mine")];
+    NSArray *titles = @[LLLLLL(@"Message"), LLLLLL(@"Contacts"), LLLLLL(@"Mine")];
+
     NSMutableArray *ecgsoixNvcs = NSMutableArray.new;
     for (NSInteger i = 0; i < ecgsoixVcs.count; i ++) {
         UINavigationController *ecgsoixNavi = [[UINavigationController alloc] initWithRootViewController:ecgsoixVcs[i]];

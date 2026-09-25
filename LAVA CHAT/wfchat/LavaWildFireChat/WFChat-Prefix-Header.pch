@@ -57,6 +57,62 @@
 #import "LockStatusManager.h"
 #import "ObjectModel.h"
 
+#import "UIImage+Color.h"
+#import "UIImage+Resize.h"
+#import "UIView+Visuals.h"
+#import "UIButton+Block.h"
+#import "NSDate+Extension.h"
+#import "NSUserDefaults+SafeAccess.h"
+#import "UIButton+ImagePosition.h"
+#import "FHXHUD.h"
+#import "IQKeyboardManager.h"
+#import "Masonry.h"
+#import "UINavigationController+Color.h"
+#import "AppDelegate.h"
+#import "Tep_conserveNC.h"
+#import "Tep_conserveTBC.h"
+#import "Tep_conserveTB.h"
+#import "Tep_tobackVC.h"
+
+#import "Tep_WarmCVC.h"
+#import "Tep_WarmCell.h"
+#import "Tep_WarmAddVC.h"
+#import "Tep_HeatingVC.h"
+#import "Tep_HeatingCell.h"
+#import "Tep_HeatAddVC.h"
+#import "Tep_ColdVC.h"
+#import "Tep_ColdCell.h"
+#import "Tep_ColdAddVC.h"
+
+
+#define Tep_SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
+
+#define Tep_SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
+
+#define Tep_IS_iPhoneX [UIScreen mainScreen].bounds.size.height >= 812.f
+
+#define Tep_StatusBarHeight (Tep_IS_iPhoneX ? 44.f : 20.f)
+
+#define Tep_NavBarHeight (44.f+Tep_StatusBarHeight)
+
+#define Tep_TabbarSafeBottomMargin (Tep_IS_iPhoneX ? 34.f : 0.f)
+
+#define Tep_TabBarHeight (Tep_IS_iPhoneX ? (49.f+34.f) : 49.f)
+
+
+#define Color_HEX(rgbValue, a) \
+    [UIColor colorWithRed:((CGFloat)((rgbValue & 0xFF0000) >> 16)) / 255.0 \
+                    green:((CGFloat)((rgbValue & 0xFF00) >> 8)) / 255.0 \
+                     blue:((CGFloat)(rgbValue & 0xFF)) / 255.0 \
+                    alpha:(a)]
+
+
+
+
+#define WeakSelf(type)  __weak typeof(type) weak##type = type;
+
+#define arriveVCName(name) [[UIStoryboard storyboardWithName:name bundle:nil] instantiateInitialViewController]
+
 
 
 #endif /* WFChat_Prefix_Header_pch */
