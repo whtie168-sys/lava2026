@@ -14,3 +14,10 @@ wfclient/WFChatClient/Proto/libssl_arm64.a
 wfclient/build
 wfuikit/build
 build
+
+# 本机/个人信息：Xcode 个人设置目录名含 macOS 登录用户名，
+# xcuserstate 内含绝对路径、最近打开的文件、光标位置、断点等。
+**/xcuserdata/
+**/*.xcuserstate
+.DS_Store
+**/.DS_Store

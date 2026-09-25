@@ -1156,6 +1156,11 @@
 		2E6B50A11FAE98E6006B6E31 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-ffile-prefix-map=$(SRCROOT)=.",
+					"-fdebug-prefix-map=$(SRCROOT)=.",
+				);
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
@@ -1218,6 +1223,11 @@
 		2E6B50A21FAE98E6006B6E31 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-ffile-prefix-map=$(SRCROOT)=.",
+					"-fdebug-prefix-map=$(SRCROOT)=.",
+				);
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
@@ -1274,6 +1284,11 @@
 		2E6B50A41FAE98E6006B6E31 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-ffile-prefix-map=$(SRCROOT)=.",
+					"-fdebug-prefix-map=$(SRCROOT)=.",
+				);
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
@@ -1316,6 +1331,11 @@
 		2E6B50A51FAE98E6006B6E31 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-ffile-prefix-map=$(SRCROOT)=.",
+					"-fdebug-prefix-map=$(SRCROOT)=.",
+				);
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
@@ -1358,8 +1378,13 @@
 		B75D81532782ADE1009D4A19 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-ffile-prefix-map=$(SRCROOT)=.",
+					"-fdebug-prefix-map=$(SRCROOT)=.",
+				);
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ZTJABWRJ5T;
+				DEVELOPMENT_TEAM = 376RA88BPZ;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1367,8 +1392,13 @@
 		B75D81542782ADE1009D4A19 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-ffile-prefix-map=$(SRCROOT)=.",
+					"-fdebug-prefix-map=$(SRCROOT)=.",
+				);
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ZTJABWRJ5T;
+				DEVELOPMENT_TEAM = 376RA88BPZ;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
