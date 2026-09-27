@@ -108,11 +108,6 @@
             [_pluginItems insertObject:[[PluginItem alloc] initWithTitle:(isChinese?@"视频通话":@"Gọi video") image:[QWERImage imageNamed:@"chat_input_plugin_video_call1"] tag:4] atIndex:2];
         }
 #endif
-#ifdef WFC_PTT
-        if(self.hasPtt) {
-            [_pluginItems addObject:[[PluginItem alloc] initWithTitle:(isChinese?@"对讲":@"Liên lạc") image:[QWERImage imageNamed:@"chat_input_plugin_intercom"] tag:7]];
-        }
-#endif
     }
     return _pluginItems;
 }

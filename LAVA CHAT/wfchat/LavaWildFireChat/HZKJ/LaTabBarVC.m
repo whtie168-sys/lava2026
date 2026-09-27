@@ -53,10 +53,6 @@
     [self setTabbarBackGround];
     [self reportLaunchEvent];
     
-#ifdef WFC_MOMENTS
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUnreadCommentStatusChanged:) name:kReceiveComments object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUnreadCommentStatusChanged:) name:kClearUnreadComments object:nil];
-#endif
 }
 
 - (void)setTabbarBackGround{
@@ -86,12 +82,6 @@
 }
 
 - (void)updateBadgeNumber {
-#ifdef WFC_MOMENTS
-    int momentIndex = 2;
-    if(WORK_PLATFORM_URL.length)
-        momentIndex = 3;
-    [self.tabBar showBadgeOnItemIndex:momentIndex badgeValue:[[WFMomentService sharedService] getUnreadCount]];
-#endif
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {

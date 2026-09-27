@@ -64,16 +64,6 @@
     }
     return self;
 }
-#ifdef WFC_PTT
-- (void)setIsPtt:(BOOL)isPtt {
-    _isPtt = isPtt;
-    if(isPtt) {
-        _asofaTextLabel.text = (_isChinese?@"松开结束对讲":@"Phát hành kết thúc cuộc đối thoại");
-        _upCancelText = (_isChinese?@"松开结束对讲":@"Phát hành kết thúc cuộc đối thoại");
-        _loosenCancelText = (_isChinese?@"松开结束对讲":@"Phát hành kết thúc cuộc đối thoại");
-    }
-}
-#endif
 #pragma mark - setter
 - (void)setVoiceMessageAnimationImages:(NSArray *)voiceMessageAnimationImages
 {

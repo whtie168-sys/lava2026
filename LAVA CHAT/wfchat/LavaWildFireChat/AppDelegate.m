@@ -29,9 +29,6 @@
 #import "UIColor+YH.h"
 #import "SharedConversation.h"
 #import "SharePredefine.h"
-#ifdef WFC_PTT
-#import <PttClient/WFPttClient.h>
-#endif
 
 #import "OrgService.h"
 
@@ -59,9 +56,6 @@
     WFAVEngineDelegate,
 #endif
     UNUserNotificationCenterDelegate, QrCodeDelegate
-#ifdef WFC_PTT
-,WFPttDelegate
-#endif
 >{
     BOOL _isChinese;
 }
@@ -131,16 +125,6 @@
     [QWERConfigManager globalManager].appServiceProvider = [AppService sharedAppService];
     [QWERConfigManager globalManager].fileTransferId = FILE_TRANSFER_ID;
     [QWERConfigManager globalManager].orgServiceProvider = [OrgService sharedOrgService];
-#ifdef WFC_PTT
-    //初始化对讲SDK
-    [WFPttClient sharedClient].delegate = self;
-    BOOL keepBackgroundAlive = [[NSUserDefaults standardUserDefaults] boolForKey:@"WFC_PTT_BACKGROUND_KEEPALIVE"];
-    if(keepBackgroundAlive) {
-        [[WFPttClient sharedClient] setPlaySilent:@(YES)];
-    }
-    BOOL pttEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"WFC_PTT_ENABLED"];
-    [WFPttClient sharedClient].enablePtt = pttEnabled;
-#endif //WFC_PTT
         
     [self setupNavBar];
     self.window.backgroundColor = [UIColor whiteColor];
@@ -1276,31 +1260,6 @@ void systemAudioCallback (SystemSoundID soundID, void* clientData) {
     [navigator pushViewController:vc animated:YES];
 }
 
-#ifdef WFC_PTT
-- (void)playPttRing:(NSString *)ring {
-    NSURL *url = [[NSBundle mainBundle] URLForResource:ring withExtension:@"m4a"];
-    NSError *error = nil;
-    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
-    if (!error) {
-        self.audioPlayer.numberOfLoops = 0;
-        self.audioPlayer.volume = 1.0;
-        [self.audioPlayer prepareToPlay];
-        [self.audioPlayer play];
-    }
-}
-
-#pragma - mark WFPttDelegate
-- (void)didConversation:(WFCCConversation *)conversation startTalkingUser:(NSString *)userId {
-    [self playPttRing:@"ptt_begin"];
-}
-
-- (void)didConversation:(WFCCConversation *)conversation endTalkingUser:(NSString *)userId {
-    [self playPttRing:@"ptt_end"];
-}
-- (void)didConversation:(WFCCConversation *)conversation amplitudeUpdate:(int)amplitude ofUser:(NSString *)userId {
-    NSLog(@"on ptt user %@ speak %d", userId, amplitude);
-}
-#endif
 @end
 /**
  LAVA 一个安全的私密聊天APP.

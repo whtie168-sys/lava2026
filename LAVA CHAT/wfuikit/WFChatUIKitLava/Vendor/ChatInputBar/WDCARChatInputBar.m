@@ -30,10 +30,6 @@
 #import "UIView+TYAlertView.h"
 #import <ZLPhotoBrowser/ZLPhotoBrowser-Swift.h>
 #import "QWERConfigManager.h"
-#ifdef WFC_PTT
-#import <PttClient/WFPttClient.h>
-#import "QAZPttViewController.h"
-#endif
 #import "QWERImage.h"
 
 #import "WDCARTextView.h"
@@ -78,9 +74,6 @@
 
 @property (nonatomic, strong)UIButton *publicSwitchBtn;
 @property (nonatomic, strong)UIButton *voiceSwitchBtn;
-#ifdef WFC_PTT
-@property (nonatomic, strong)UIButton *pttSwitchBtn;
-#endif
 @property (nonatomic, strong)UIButton *emojSwitchBtn;
 @property (nonatomic, strong)UIButton *pluginSwitchBtn;
 
@@ -257,16 +250,6 @@
     [self.inputContainer addSubview:self.voiceSwitchBtn];
     voiceAndPttOffset = asouVoiceBtnPaddingLeft + CHAT_INPUT_BAR_ICON_SIZE;
     
-#ifdef WFC_PTT
-    if([self isPttEnabled]) {
-    self.pttSwitchBtn = [[UIButton alloc] initWithFrame:CGRectMake(voiceAndPttOffset + CHAT_INPUT_BAR_PADDING, CHAT_INPUT_BAR_PADDING, CHAT_INPUT_BAR_ICON_SIZE, CHAT_INPUT_BAR_ICON_SIZE)];
-    [self.pttSwitchBtn setImage:[QWERImage imageNamed:@"chat_input_bar_ptt"] forState:UIControlStateNormal];
-    [self.pttSwitchBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.pttSwitchBtn addTarget:self action:@selector(onSwitchBtn:) forControlEvents:UIControlEventTouchDown];
-    [self.inputContainer addSubview:self.pttSwitchBtn];
-        voiceAndPttOffset += CHAT_INPUT_BAR_ICON_SIZE;
-    }
-#endif
     
     self.pluginSwitchBtn = [[UIButton alloc] initWithFrame:CGRectMake(parentRect.size.width - CHAT_INPUT_BAR_HEIGHT + CHAT_INPUT_BAR_PADDING, CHAT_INPUT_BAR_PADDING, CHAT_INPUT_BAR_ICON_SIZE, CHAT_INPUT_BAR_ICON_SIZE)];
     [self.pluginSwitchBtn setImage:[QWERImage imageNamed:@"chat_input_bar_plugin"] forState:UIControlStateNormal];
@@ -339,9 +322,6 @@
         _recordView.center = self.parentView.center;
         [self.parentView addSubview:_recordView];
         [self.parentView bringSubviewToFront:_recordView];
-#ifdef WFC_PTT
-        _recordView.isPtt = self.inputBarStatus == ChatInputBarPttStatus;
-#endif
         [self recordStart];
     }
 }
@@ -352,21 +332,7 @@
     }
 }
 
-#ifdef WFC_PTT
-- (void)playPttRing:(NSString *)ring {
-    if([[UIApplication sharedApplication].delegate respondsToSelector:@selector(playPttRing:)]) {
-        [[UIApplication sharedApplication].delegate performSelector:@selector(playPttRing:) withObject:ring];
-    }
-}
-#endif
 - (void)recordStart {
-#ifdef WFC_PTT
-    if(self.inputBarStatus == ChatInputBarPttStatus) {
-        if([[[WFPttClient sharedClient] getTalkingConversation] isEqual:self.conversation]) {
-            return;
-        }
-    } else
-#endif
     if (self.recorder.recording) {
         return;
     }
@@ -389,28 +355,6 @@
             if(!isViewExist) {
                 return;
             }
-#ifdef WFC_PTT
-            if(self.inputBarStatus == ChatInputBarPttStatus) {
-                __weak typeof(self)ws = self;
-                [[WFPttClient sharedClient] requestTalk:self.conversation startTalking:^(void) {
-                    NSLog(@"talking now...");
-                    [ws playPttRing:@"ptt_begin"];
-                } onAmplitude:^(int averageAmp){
-                    float level = 10*log10(averageAmp)/48.f;
-                    [ws.recordView setVoiceImage:level];
-                } requestFailure:^(int errorCode) {
-                    NSLog(@"request talking failure");
-                    [ws.recordView removeFromSuperview];
-                    [ws recordEnd];
-                } talkingEnd:^(PttEndReason reason) {
-                    NSLog(@"talking ended");
-                    [ws playPttRing:@"ptt_end"];
-                    [ws.recordView removeFromSuperview];
-                    [ws recordEnd];
-                }];
-            }
-            else
-#endif
             {
                 AVAudioSession *session = [AVAudioSession sharedInstance];
                 [session setCategory:AVAudioSessionCategoryRecord error:nil];
@@ -467,12 +411,6 @@
 
 - (void)recordCancel {
     NSLog(@"touch cancel");
-#ifdef WFC_PTT
-    if(self.inputBarStatus == ChatInputBarPttStatus && [[[WFPttClient sharedClient] getTalkingConversation] isEqual:self.conversation]) {
-        self.recordCanceled = YES;
-        [self stopRecord];
-    } else
-#endif
     if (self.recorder.recording) {
         NSLog(@"cancel record...");
         self.recordCanceled = YES;
@@ -550,12 +488,6 @@
 }
 
 -(void)recordEnd {
-#ifdef WFC_PTT
-    if(self.inputBarStatus == ChatInputBarPttStatus && [[[WFPttClient sharedClient] getTalkingConversation] isEqual:self.conversation]) {
-        self.recordCanceled = YES;
-        [self stopRecord];
-    } else
-#endif
     if (self.recorder.recording) {
         NSLog(@"stop record...");
         self.recordCanceled = NO;
@@ -564,11 +496,6 @@
 }
 
 -(void)stopRecord {
-#ifdef WFC_PTT
-    if(self.inputBarStatus == ChatInputBarPttStatus) {
-        [[WFPttClient sharedClient] releaseTalking:self.conversation];
-    } else {
-#endif
     [self.recorder stop];
     [self.recordingTimer invalidate];
     self.recordingTimer = nil;
@@ -580,16 +507,10 @@
     if (!r) {
         NSLog(@"deactivate audio session fail");
     }
-#ifdef WFC_PTT
-    }
-#endif
 }
 
 - (void)resetInputBarStatue {
     if (self.inputBarStatus != ChatInputBarRecordStatus && self.inputBarStatus != ChatInputBarMuteStatus
-#ifdef WFC_PTT
-        && self.inputBarStatus != ChatInputBarPttStatus
-#endif
         && self.inputBarStatus != ChatInputBarPublicStatus
         ) {
         self.inputBarStatus = ChatInputBarDefaultStatus;
@@ -600,15 +521,6 @@
 }
 
 - (void)onSwitchBtn:(id)sender {
-#ifdef WFC_PTT
-    if(sender == self.pttSwitchBtn) {
-        if (self.inputBarStatus == ChatInputBarPttStatus) {
-            self.inputBarStatus = ChatInputBarKeyboardStatus;
-        } else {
-            self.inputBarStatus = ChatInputBarPttStatus;
-        }
-    } else
-#endif
     if (sender == self.voiceSwitchBtn) {
         if (self.inputBarStatus == ChatInputBarRecordStatus) {
             self.inputBarStatus = ChatInputBarKeyboardStatus;
@@ -675,14 +587,6 @@
             self.pluginInput = NO;
             self.textInput = NO;
             break;
-#ifdef WFC_PTT
-        case ChatInputBarPttStatus:
-            self.voiceInput = YES;
-            self.emojInput = NO;
-            self.pluginInput = NO;
-            self.textInput = NO;
-            break;
-#endif
         case ChatInputBarRecordStatus:
             self.voiceInput = YES;
             self.emojInput = NO;
@@ -712,9 +616,6 @@
             self.textInputView.textColor = RGBCOLOR(200.0, 200.0, 200.0);
             [self.voiceInputBtn setEnabled:NO];
             [self.voiceSwitchBtn setEnabled:NO];
-#ifdef WFC_PTT
-            [self.pttSwitchBtn setEnabled:NO];
-#endif
             [self.emojSwitchBtn setEnabled:NO];
             [self.pluginSwitchBtn setEnabled:NO];
             break;
@@ -742,23 +643,8 @@
             [self.textInputView resignFirstResponder];
         }
 
-#ifdef WFC_PTT
-        if(self.inputBarStatus == ChatInputBarPttStatus) {
-            [self.pttSwitchBtn setImage:[QWERImage imageNamed:@"chat_input_bar_keyboard"] forState:UIControlStateNormal];
-            [self.voiceSwitchBtn setImage:[QWERImage imageNamed:@"chat_input_bar_voice"] forState:UIControlStateNormal];
-        } else {
-            [self.pttSwitchBtn setImage:[QWERImage imageNamed:@"chat_input_bar_ptt"] forState:UIControlStateNormal];
-#endif
             [self.voiceSwitchBtn setImage:[QWERImage imageNamed:@"chat_input_bar_keyboard"] forState:UIControlStateNormal];
             
-#ifdef WFC_PTT
-        }
-        if(self.inputBarStatus == ChatInputBarPttStatus) {
-            [self.voiceInputBtn setTitle:(_isChinese?@"按下 对讲":@"Nhấn TalkBack")" forState:UIControlStateNormal];
-        } else {
-            [self.voiceInputBtn setTitle:(_isChinese?@"按下 说话":@"Bấm vào nói chuyện") forState:UIControlStateNormal];
-        }
-#endif
         CGFloat diff = 0;
         if (self.textInputView.frame.size.height != CHAT_INPUT_BAR_ICON_SIZE) {
             diff = self.textInputView.frame.size.height - CHAT_INPUT_BAR_ICON_SIZE;
@@ -773,16 +659,8 @@
         self.asoucQuoteContainerView.hidden = NO;
         [self.voiceInputBtn setHidden:YES];
         [self.voiceSwitchBtn setImage:[QWERImage imageNamed:@"chat_input_bar_voice"] forState:UIControlStateNormal];
-#ifdef WFC_PTT
-        [self.pttSwitchBtn setImage:[QWERImage imageNamed:@"chat_input_bar_ptt"] forState:UIControlStateNormal];
-#endif
     }
 }
-#ifdef WFC_PTT
-- (BOOL)isPttEnabled {
-    return ![[WFCCIMService sharedWFCIMService] isConversationSilent:self.conversation] && [WFPttClient sharedClient].enablePtt;
-}
-#endif
 - (void)setEmojInput:(BOOL)emojInput {
     _emojInput = emojInput;
     if (emojInput) {
@@ -1027,11 +905,7 @@
 #else
         BOOL hasVoip = NO;
 #endif
-#ifdef WFC_PTT
-        BOOL hasPtt = [WFPttClient sharedClient].enablePtt && (self.conversation.type == Single_Type || self.conversation.type == Group_Type);
-#else
         BOOL hasPtt = NO;
-#endif
         _pluginInputView = [[WDCARPluginBoardView alloc] initWithDelegate:self withVoip:hasVoip withPtt:hasPtt];
     }
     return _pluginInputView;
@@ -1084,9 +958,6 @@
         NSString *mentionText = [NSString stringWithFormat:@"@%@ ", userName];
         BOOL needDelay = NO;
         if(self.inputBarStatus == ChatInputBarDefaultStatus || self.inputBarStatus == ChatInputBarPluginStatus ||
-#ifdef WFC_PTT
-           self.inputBarStatus == ChatInputBarPttStatus ||
-#endif
            self.inputBarStatus == ChatInputBarRecordStatus) {
             self.inputBarStatus = ChatInputBarKeyboardStatus;
             needDelay = YES;
@@ -1120,9 +991,6 @@
     }
     
     if (showKeyboard && (self.inputBarStatus == ChatInputBarDefaultStatus || self.inputBarStatus == ChatInputBarRecordStatus
-#ifdef WFC_PTT
-        || self.inputBarStatus == ChatInputBarPttStatus
-#endif
                          )) {
         self.inputBarStatus = ChatInputBarKeyboardStatus;
     }
@@ -1182,9 +1050,6 @@
     CGRect voiceFrame = self.voiceSwitchBtn.frame;
     CGRect emojFrame = self.emojSwitchBtn.frame;
     CGRect extendFrame = self.pluginSwitchBtn.frame;
-#ifdef WFC_PTT
-    CGRect pttFrame = self.pttSwitchBtn.frame;
-#endif
     
     baseFrame.size.height += diff;
     baseFrame.origin.y -= diff;
@@ -1192,9 +1057,6 @@
     voiceFrame.origin.y += diff;
     emojFrame.origin.y += diff;
     extendFrame.origin.y += diff;
-#ifdef WFC_PTT
-    pttFrame.origin.y += diff;
-#endif
     
     [UIView animateWithDuration:0.5 animations:^{
         self.frame = baseFrame;
@@ -1202,9 +1064,6 @@
         self.voiceSwitchBtn.frame = voiceFrame;
         self.emojSwitchBtn.frame = emojFrame;
         self.pluginSwitchBtn.frame = extendFrame;
-#ifdef WFC_PTT
-        self.pttSwitchBtn.frame = pttFrame;
-#endif
     }];
     [self.delegate willChangeFrame:baseFrame withDuration:0.5 keyboardShowing:YES];
 }
@@ -1391,9 +1250,6 @@
     CGRect voiceFrame = self.voiceSwitchBtn.frame;
     CGRect emojFrame = self.emojSwitchBtn.frame;
     CGRect extendFrame = self.pluginSwitchBtn.frame;
-#ifdef WFC_PTT
-    CGRect pttFrame = self.pttSwitchBtn.frame;
-#endif
     
     CGFloat diff = 0;
     CGFloat quoteHeight = 0;
@@ -1424,9 +1280,6 @@
     voiceFrame.origin.y += diff;
     emojFrame.origin.y += diff;
     extendFrame.origin.y += diff;
-#ifdef WFC_PTT
-    pttFrame.origin.y += diff;
-#endif
     
     float duration = 0.5f;
     [self.delegate willChangeFrame:baseFrame withDuration:duration keyboardShowing:YES];
@@ -1440,9 +1293,6 @@
         self.voiceSwitchBtn.frame = voiceFrame;
         self.emojSwitchBtn.frame = emojFrame;
         self.pluginSwitchBtn.frame = extendFrame;
-#ifdef WFC_PTT
-        self.pttSwitchBtn.frame = pttFrame;
-#endif
         if(needUpdateText) {
             [ws.textInputView.textStorage replaceCharactersInRange:range withString:@" "];
         }
@@ -1813,13 +1663,6 @@
         UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:pvc];
         [[self.delegate requireNavi] presentViewController:navi animated:YES completion:nil];
     } else if(itemTag == 7) {
-#ifdef WFC_PTT
-        QAZPttViewController *vc = [[QAZPttViewController alloc] init];
-        vc.conversation = self.conversation;
-        UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:vc];
-        navi.modalPresentationStyle = UIModalPresentationFullScreen;
-        [[self.delegate requireNavi] presentViewController:navi animated:YES completion:nil];
-#endif
     }
 }
 

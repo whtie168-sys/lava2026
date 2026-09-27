@@ -393,8 +393,6 @@
 		2FD550ED2442AA0B00B3EE09 /* ASDFGRecallCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD550EB2442AA0B00B3EE09 /* ASDFGRecallCell.m */; };
 		2FD550F62442AA5800B3EE09 /* UILabel+YBAttributeTextTapAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 2FD550F42442AA5800B3EE09 /* UILabel+YBAttributeTextTapAction.h */; };
 		2FD550F72442AA5800B3EE09 /* UILabel+YBAttributeTextTapAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD550F52442AA5800B3EE09 /* UILabel+YBAttributeTextTapAction.m */; };
-		2FDF87152723E01100AC6C36 /* QAZPttViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2FDF87132723E01100AC6C36 /* QAZPttViewController.h */; };
-		2FDF87162723E01100AC6C36 /* QAZPttViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDF87142723E01100AC6C36 /* QAZPttViewController.m */; };
 		2FE689A821AE9C0200DE54CC /* ASECWConversationSearchTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE689A621AE9C0100DE54CC /* ASECWConversationSearchTableVC.m */; };
 		2FE689A921AE9C0200DE54CC /* ASECWConversationSearchTableVC.h in Headers */ = {isa = PBXBuildFile; fileRef = 2FE689A721AE9C0200DE54CC /* ASECWConversationSearchTableVC.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2FF70EAC2402101000946D2D /* RADCOWaitingAnimationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2FF70EAA2402101000946D2D /* RADCOWaitingAnimationView.h */; };
@@ -1057,8 +1055,6 @@
 		2FD550EB2442AA0B00B3EE09 /* ASDFGRecallCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASDFGRecallCell.m; sourceTree = "<group>"; };
 		2FD550F42442AA5800B3EE09 /* UILabel+YBAttributeTextTapAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+YBAttributeTextTapAction.h"; sourceTree = "<group>"; };
 		2FD550F52442AA5800B3EE09 /* UILabel+YBAttributeTextTapAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+YBAttributeTextTapAction.m"; sourceTree = "<group>"; };
-		2FDF87132723E01100AC6C36 /* QAZPttViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QAZPttViewController.h; sourceTree = "<group>"; };
-		2FDF87142723E01100AC6C36 /* QAZPttViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QAZPttViewController.m; sourceTree = "<group>"; };
 		2FE689A621AE9C0100DE54CC /* ASECWConversationSearchTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASECWConversationSearchTableVC.m; sourceTree = "<group>"; };
 		2FE689A721AE9C0200DE54CC /* ASECWConversationSearchTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASECWConversationSearchTableVC.h; sourceTree = "<group>"; };
 		2FF70EAA2402101000946D2D /* RADCOWaitingAnimationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RADCOWaitingAnimationView.h; sourceTree = "<group>"; };
@@ -1554,7 +1550,6 @@
 			isa = PBXGroup;
 			children = (
 				B764D483295851570082492F /* Organization */,
-				2FDF87122723DFFD00AC6C36 /* Ptt */,
 				2FB87A64265122E100790A26 /* Enum */,
 				2BBC9CEE255CEBD9007DA28A /* File */,
 				901E26FF21F152B200A163CB /* AVEngine */,
@@ -2370,15 +2365,6 @@
 			path = YBAttributeTextTapAction;
 			sourceTree = "<group>";
 		};
-		2FDF87122723DFFD00AC6C36 /* Ptt */ = {
-			isa = PBXGroup;
-			children = (
-				2FDF87132723E01100AC6C36 /* QAZPttViewController.h */,
-				2FDF87142723E01100AC6C36 /* QAZPttViewController.m */,
-			);
-			path = Ptt;
-			sourceTree = "<group>";
-		};
 		7037B4C42DD8C64F001EA800 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -2938,7 +2924,6 @@
 				2B63367F24716864008D6B38 /* ZCCCircleProgressView.h in Headers */,
 				2F55121A217F5CC300F56C26 /* QWERTMyPortraitVC.h in Headers */,
 				2F551211217F5CC300F56C26 /* FRSDAContactListVC.h in Headers */,
-				2FDF87152723E01100AC6C36 /* QAZPttViewController.h in Headers */,
 				2F5510B0217F5CC200F56C26 /* RWADCGroupMemberTVController.h in Headers */,
 				1450EA852438922800BF51FC /* FRSDAUserSectionKeySupport.h in Headers */,
 				2F551100217F5CC200F56C26 /* CCHMapClusterControllerUtils.h in Headers */,
@@ -3205,7 +3190,6 @@
 				2F551102217F5CC200F56C26 /* CCHNearCenterMapClusterer.m in Sources */,
 				B7C1917629CEFF7D00DBEA9B /* XLPageViewControllerUtil.m in Sources */,
 				2FB7125F25DA0A9600FD2E83 /* RADCOConferenceMemberTVCell.m in Sources */,
-				2FDF87162723E01100AC6C36 /* QAZPttViewController.m in Sources */,
 				B70162F4290E2F1700DCD651 /* MWZoomingScrollView.m in Sources */,
 				2F7381F72308F72F00213421 /* ASCEDGroupMemberCollectionVC.m in Sources */,
 				2BB4191724ED212200ABFEF1 /* QWERUserMessageListVC.m in Sources */,

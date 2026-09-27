@@ -64,9 +64,6 @@ typedef NS_ENUM(NSInteger, ChatInputBarStatus) {
     ChatInputBarRecordStatus,
     ChatInputBarPublicStatus,
     ChatInputBarMuteStatus,
-#ifdef WFC_PTT
-    ChatInputBarPttStatus
-#endif
 };
 
 @class WFCCConversation;

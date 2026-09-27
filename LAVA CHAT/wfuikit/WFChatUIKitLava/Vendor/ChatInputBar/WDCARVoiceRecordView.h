@@ -16,9 +16,6 @@ typedef enum{
 @property (nonatomic) NSString *upCancelText UI_APPEARANCE_SELECTOR;
 
 @property (nonatomic) NSString *loosenCancelText UI_APPEARANCE_SELECTOR;
-#ifdef WFC_PTT
-@property (nonatomic, assign)BOOL isPtt;
-#endif
 -(void)setCountdown:(int)countdown;
 -(void)setVoiceImage:(double)voiceMeter;
 
